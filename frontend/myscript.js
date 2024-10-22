@@ -46,7 +46,39 @@ let regbtn = document
       .querySelector(".registrationform")
       .addEventListener("submit", (e) => {
         e.preventDefault();
-        console.log("Registration form submitted");
+        let fname = document.getElementById("fname").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+        let cpassword = document.getElementById("cpassword").value;
+        let registrationdata = {
+          name: fname,
+          email: email,
+          password: password,
+          cpassword: cpassword,
+        };
+        if (password === cpassword) {
+          fetch("http://localhost:5000/auth/register", {
+            method: "POST",
+            body: JSON.stringify(registrationdata),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        } else {
+          alert("Passwords do not match");
+        }
+        // clear the form fields
+        document.getElementById("fname").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("cpassword").value = "";
       });
   });
 

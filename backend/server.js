@@ -3,7 +3,8 @@ const myRoute = require("./routes/myRoute");
 const authRoutes = require("./routes/authRoutes");
 const app = express();
 require("dotenv").config();
-//
+
+app.use(express.json());
 app.use(express.static("frontend"));
 app.use("/", myRoute);
 app.use("/auth", authRoutes);
