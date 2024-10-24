@@ -119,7 +119,6 @@ let lgnbtn = document
           },
         })
           .then((response) => {
-            response.json();
             if (response.status === 200) {
               alert("login successful");
               $(document).ready(function () {
@@ -128,9 +127,17 @@ let lgnbtn = document
             } else {
               alert("Invalid credentials");
             }
+            return response.json();
           })
           .then((data) => {
-            console.log(data);
+            if (data.token) {
+              const socket = io({
+                auth: {
+                  token: localStorage.getItem("token"),
+                },
+              });
+              localStorage.setItem("token", data.token);
+            }
           })
           .catch((error) => console.error("Error:", error));
       } catch (e) {
