@@ -110,16 +110,31 @@ let lgnbtn = document
         fname: document.getElementById("fname").value,
         password: document.getElementById("password").value,
       };
-
-      fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        body: JSON.stringify(d),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error("Error:", error));
+      try {
+        fetch("http://localhost:5000/auth/login", {
+          method: "POST",
+          body: JSON.stringify(d),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            response.json();
+            if (response.status === 200) {
+              alert("login successful");
+              $(document).ready(function () {
+                $("#staticBackdrop").modal("hide");
+              });
+            } else {
+              alert("Invalid credentials");
+            }
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => console.error("Error:", error));
+      } catch (e) {
+        console.error("Error:", e);
+      }
     });
   });
